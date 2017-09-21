@@ -27,7 +27,7 @@ optionTypes =
   socket: "string?"
   ssl: "object?"
 
-request = (url, options) ->
+request = (url, options = {}) ->
   assertValid url, "string"
   assertValid options, optionTypes
 
