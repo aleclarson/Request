@@ -94,7 +94,7 @@ request = (url, options = {}) ->
 
   stream = options.stream is true
   return new Promise (resolve, reject) ->
-
+    startTime = Date.now()
     onResponse =
       if stream
       then resolve
@@ -105,6 +105,7 @@ request = (url, options = {}) ->
           then reject error
           else resolve {
             __proto__: responseProto
+            elapsedTime: Date.now() - startTime
             success: status >= 200 and status < 300
             headers: res.headers
             status
