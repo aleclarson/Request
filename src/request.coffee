@@ -139,8 +139,12 @@ responseProto = do ->
   proto = {}
 
   Object.defineProperty proto, "json",
-    get: -> JSON.parse @data.toString()
-    set: -> throw Error "Cannot set `json`"
+    get: -> @json = JSON.parse @data.toString()
+    set: (json) ->
+      Object.defineProperty this, "json",
+        value: json
+        writable: true
+        enumerable: true
 
   Object.defineProperty proto, "text",
     get: -> @data.toString()
