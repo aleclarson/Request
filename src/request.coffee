@@ -110,6 +110,8 @@ request = (url, options = {}) ->
             headers: res.headers
             status
             data
+            path: config.path
+            method: config.method or "GET"
           }
 
     req = schemes[scheme].request config, onResponse
