@@ -1,0 +1,10 @@
+{
+  "name": "request",
+  "version": "1.1.0",
+  "main": "js/request",
+  "dependencies": {
+    "assertValid": "aleclarson/assertValid#1.0.1",
+    "form-urlencoded": "aleclarson/form-urlencoded#1.0.1",
+    "isValid": "aleclarson/isValid#1.0.1"
+  }
+}
