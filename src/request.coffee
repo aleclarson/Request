@@ -94,7 +94,7 @@ request = (url, options = {}) ->
 
   stream = options.stream is true
   return new Promise (resolve, reject) ->
-
+    startTime = Date.now()
     onResponse =
       if stream
       then resolve
@@ -105,13 +105,17 @@ request = (url, options = {}) ->
           then reject error
           else resolve {
             __proto__: responseProto
+            elapsedTime: Date.now() - startTime
             success: status >= 200 and status < 300
             headers: res.headers
             status
             data
+            path: config.path
+            method: config.method or "GET"
           }
 
     req = schemes[scheme].request config, onResponse
+    req.on "error", reject
     req.write data if data
     req.end()
 
@@ -136,8 +140,12 @@ responseProto = do ->
   proto = {}
 
   Object.defineProperty proto, "json",
-    get: -> JSON.parse @data.toString()
-    set: -> throw Error "Cannot set `json`"
+    get: -> @json = JSON.parse @data.toString()
+    set: (json) ->
+      Object.defineProperty this, "json",
+        value: json
+        writable: true
+        enumerable: true
 
   Object.defineProperty proto, "text",
     get: -> @data.toString()
