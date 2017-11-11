@@ -115,6 +115,7 @@ request = (url, options = {}) ->
           }
 
     req = schemes[scheme].request config, onResponse
+    req.on "error", reject
     req.write data if data
     req.end()
 
